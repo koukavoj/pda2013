@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/mainScreenUserImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/mainScreenUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mainScreenUserImage"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/mainScreenMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/mainScreenUserImage"
+        android:layout_marginBottom="21dp"
+        android:layout_marginLeft="50dp"
+        android:layout_toRightOf="@+id/mainScreenUserImage"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/mainScreenDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/mainScreenMessage"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="43dp"
+        android:text="TextView" />
+
+</RelativeLayout>
