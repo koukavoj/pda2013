@@ -13,7 +13,7 @@ public class User {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(int id) {	//je to potreba?
 		this.id = id;
 	}
 	public String getName() {
