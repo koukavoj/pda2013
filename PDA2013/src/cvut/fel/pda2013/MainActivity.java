@@ -140,7 +140,7 @@ public class MainActivity extends Activity {
 		net.sendMessage(mapa);
 
 	}
-
+ 
 	public void receive(View view) {
 		List<Message> list = Messages.receiveMessages();
 
