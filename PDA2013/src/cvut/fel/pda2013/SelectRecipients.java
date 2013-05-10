@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class SelectRecipients extends Activity {
 
@@ -40,8 +41,13 @@ public class SelectRecipients extends Activity {
 	}
 
 	public void confirm(View view) {
-		Intent intent = new Intent(this, WriteMessage.class);
-		startActivity(intent);
+		
+		if (recipients.isEmpty()) {
+			Toast.makeText(this, "Nejsou vybrání žádní pøíjemci.", Toast.LENGTH_SHORT).show();
+		}else {
+			Intent intent = new Intent(this, WriteMessage.class);
+			startActivity(intent);
+		}
 
 	}
 	

@@ -92,6 +92,15 @@ public class WriteMessage extends Activity {
 		showPictsGridView.setAdapter(showAdapter);
 	}
 	
+	//natahne a zobrazi piktogramy zajmen
+public void getPronouns(View v) {
+//		clearShownPicts();
+		shownPicts = new ArrayList<Pictogram>(Pictograms.getPronouns());		
+		showAdapter = null;
+		showAdapter = new ShowPictogramsGridViewAdapter(this);
+		showPictsGridView.setAdapter(showAdapter);
+		}
+	
 	//odeslani zpravy
 	public void send(View v) {
 		List<String> msgs = new ArrayList<String>();
