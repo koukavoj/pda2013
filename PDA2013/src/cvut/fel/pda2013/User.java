@@ -1,11 +1,13 @@
 package cvut.fel.pda2013;
 
+import java.io.Serializable;
+
 /**
  * Trida reprezentujici jednoho konkretniho uzivatele a jeho vlastnosti
  * @author vojta
  *
  */
-public class User {
+public class User implements Serializable {
 
 	private int id;
 	private String name;

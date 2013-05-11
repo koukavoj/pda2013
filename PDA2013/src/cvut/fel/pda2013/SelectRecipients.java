@@ -110,7 +110,7 @@ public class SelectRecipients extends Activity {
 				
 				//nastavit odsazeni imageview			
 			    MarginLayoutParams marginParams = new MarginLayoutParams(image.getLayoutParams());
-			    marginParams.setMargins(150, 1, 1, 1);
+			    marginParams.setMargins(80, 1, 1, 1);
 			    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
 			    image.setLayoutParams(layoutParams);
 				

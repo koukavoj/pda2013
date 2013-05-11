@@ -1,5 +1,6 @@
 package cvut.fel.pda2013;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * @author vojta
  *
  */
-public class Message {
+public class Message implements Serializable {
 
 	private User from;
 	private User to;

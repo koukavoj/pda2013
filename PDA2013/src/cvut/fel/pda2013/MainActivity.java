@@ -1,10 +1,14 @@
 package cvut.fel.pda2013;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -22,12 +26,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class MainActivity extends Activity {
 
@@ -44,17 +47,26 @@ public class MainActivity extends Activity {
 		
 		ListView lay = (ListView) findViewById(R.id.mainScreenListView);
 		lay.setAdapter(adapter);
-
-		// checkujeme nove zpravy kazde 3s
-		new CountDownTimer(999999999, 30000) {
+		
+		if (!Helper.isTimerRunning){ 
+			Helper.isTimerRunning = true;
+			
+			// pri prvnim spusteni naloadujeme ulozene zpravy
+			Messages.loadFromMem(this);
+			adapter.notifyDataSetChanged();
+			
+			
+			// checkujeme nove zpravy kazdych 10s
+			new CountDownTimer(999999999, 10000) {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
 				List<Message> list = Messages.receiveMessages();
-				if (list.isEmpty())
+				if (list.isEmpty()){
 					//zadne nove zpravy
-					Toast.makeText(activity, "Zadne nove zpravy...",
-							Toast.LENGTH_SHORT).show();
+//					Toast.makeText(activity, "Zadne nove zpravy...",
+//							Toast.LENGTH_SHORT).show();
+				}
 				else {
 					//nove zpravy
 					Toast.makeText(activity,
@@ -64,6 +76,8 @@ public class MainActivity extends Activity {
 					//zpracovani zprav
 					Messages.ParseMessages(list);
 					
+					//ulozime nove zpravy
+					Messages.saveToMem(activity);
 					
 					
 					
@@ -99,7 +113,7 @@ public class MainActivity extends Activity {
 
 		}.start();
 
-		
+	}
 		//onclicklistener na prepinani adres pro pristup z domova nebo venku
 		CheckBox ch = (CheckBox) findViewById(R.id.domaCheckBox);
 		ch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -203,7 +217,11 @@ public class MainActivity extends Activity {
 			img.setImageResource(resId);
 			username.setText(msgs.get(0).getFrom().getName());
 			message.setText(msgs.get(0).getMessage());
-			date.setText(msgs.get(0).getDatetime());
+			
+			String datum = msgs.get(0).getDatetime().substring(5);
+			datum = datum.replace("-", ".");
+			date.setText(datum);
+			
 			
 
 			return convertView;
