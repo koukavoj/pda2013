@@ -56,6 +56,7 @@ public class SelectRecipients extends Activity {
 		if (recipients.isEmpty()) {
 			Toast.makeText(this, "Nejsou vybrání žádní pøíjemci.", Toast.LENGTH_SHORT).show();
 		}else {
+			WriteMessage.reply = false;			
 			Intent intent = new Intent(this, WriteMessage.class);
 			startActivity(intent);
 		}

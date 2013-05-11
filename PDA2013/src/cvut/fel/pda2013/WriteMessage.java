@@ -3,6 +3,7 @@ package cvut.fel.pda2013;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,22 +13,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class WriteMessage extends Activity {
 
@@ -44,7 +40,12 @@ public class WriteMessage extends Activity {
 
 	//show picts gridView
 	GridView showPictsGridView;
+		
+	//indikuje jestli odpovidame na zpravu nebo piseme novou
+	public static boolean reply = false;
 	
+	//obsahuje posledni zpravu, pokud odepisujeme
+	public static Message messageToReply = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +53,40 @@ public class WriteMessage extends Activity {
 		setContentView(R.layout.activity_write_message);
 
 		TextView t = (TextView) findViewById(R.id.recipients);
+		TextView t1 = (TextView) findViewById(R.id.prijemci);
 
+		RelativeLayout rl = (RelativeLayout) findViewById(R.id.lastMessage);
+		
+		//nastaveni prijemcu
 		for (int i : SelectRecipients.recipients) {
 			User u = Users.getUserById(i);
 			recipients.add(u);
 			t.setText(t.getText() + " " + u.getName() + ";");
 		}
+		
+		
+		//zobrazeni posledni zpravy v reply modu
+		//nebo zobrazeni prijemcu
+		if (reply) {			
+			rl.setVisibility(View.VISIBLE);			
+			t.setVisibility(View.INVISIBLE);
+			t1.setVisibility(View.INVISIBLE);
+			
+			GridView gv = (GridView) findViewById(R.id.lastMessageView);
+			gv.setAdapter(new LastMessagesAdapter(this));
+			
+			
+		} else {			
 
+			rl.setVisibility(View.INVISIBLE);
+			t.setVisibility(View.VISIBLE);
+			t1.setVisibility(View.VISIBLE);
+			
+		}
+		
+		
+		
+		
 		writeAdapter = new WriteMessageGridViewAdapter(this);
 		GridView g = (GridView) findViewById(R.id.gridView1);
 		g.setAdapter(writeAdapter);
@@ -283,4 +311,61 @@ public class WriteMessage extends Activity {
 
 	}
 
+	/**
+	 * adapter na zobrazeni posledni zpravy pri odpovedi
+	 * @author vojta
+	 *
+	 */
+	public class LastMessagesAdapter extends BaseAdapter {
+
+		Context context;
+		
+		public LastMessagesAdapter(Context context) {
+			super();
+			this.context = context;
+		}
+
+		@Override
+		public int getCount() {			
+			return 1;
+		}
+
+		@Override
+		public Object getItem(int arg0) {
+			return messageToReply;
+		}
+
+		@Override
+		public long getItemId(int arg0) {			
+			return messageToReply.hashCode();
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(R.layout.main_screen_users, parent, false);
+					
+			ImageView img = (ImageView) convertView.findViewById(R.id.mainScreenUserImage);
+			TextView username = (TextView) convertView.findViewById(R.id.mainScreenUserName);
+			TextView message = (TextView) convertView.findViewById(R.id.mainScreenMessage);
+			TextView date = (TextView) convertView.findViewById(R.id.mainScreenDate);
+			
+			int resId = convertView.getResources().getIdentifier(messageToReply.getFrom().getPhoto(), "drawable", context.getPackageName());
+						
+			img.setImageResource(resId);
+			username.setText(messageToReply.getFrom().getName());
+			message.setText(messageToReply.getMessage());
+			
+			String datum = messageToReply.getDatetime().substring(5);
+			datum = datum.replace("-", ".");
+			date.setText(datum);
+						
+
+			return convertView;
+			
+		}
+		
+	}
+	
 }
