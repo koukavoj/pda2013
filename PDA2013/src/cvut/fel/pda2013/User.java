@@ -37,6 +37,21 @@ public class User implements Serializable {
 		this.name = name;
 		this.photo = photo;
 	}
+	@Override
+	public String toString() {
+		return "User [name=" + name + ", hash=" + hashCode() + "]";
+	}
+	@Override
+	public int hashCode() {	
+		return id;
+	}
+	@Override
+	public boolean equals(Object o) {
+		return id == ((User) o).getId();
+	}
+	
+	
+	
 	
 	
 	

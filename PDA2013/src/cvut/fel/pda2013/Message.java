@@ -49,7 +49,7 @@ public class Message implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "From: " + from.getName() + ", to: " + to.getName() + ", date: " + datetime + ", msg: " + message;
+		return "From: " + from.getName() + ", to: " + to.getName() + ", msg: " + message;
 	}
 	
 	

@@ -1,6 +1,9 @@
 package cvut.fel.pda2013;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,8 +124,7 @@ public class WriteMessage extends Activity {
 		}
 		
 		pictogramsText = pictogramsText.substring(0, pictogramsText.length()-1);
-
-		//odesilatel zpravy
+		
 		NetWorkers net = new NetWorkers();
 		
 		for (User u : recipients) {
@@ -132,9 +134,20 @@ public class WriteMessage extends Activity {
 			map.put("message", pictogramsText);
 			
 			net.sendMessage(map);
+			
+			//ulozeni zpravy do historie
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = new Date();
+			String dat = dateFormat.format(date);
+			Message m = new Message(Login.getLoggedUser(), u, pictogramsText, dat);
+			Messages.addMessageForUser(m, u);
+			Messages.saveToMem(this);
+			
+			
 		}
 				
 		Toast.makeText(this, "Zprava odeslana!", Toast.LENGTH_SHORT).show();
+									
 		
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);

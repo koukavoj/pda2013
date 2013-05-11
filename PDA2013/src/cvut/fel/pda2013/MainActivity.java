@@ -1,12 +1,14 @@
 package cvut.fel.pda2013;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -15,15 +17,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,32 +44,14 @@ public class MainActivity extends Activity {
 //
 		//vybrat uzivatele
 		if (Login.loggedUser == -1) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("Vyberte uživatele");
-			builder.setPositiveButton("vojta", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               Login.loggedUser = 1;
-			               init();
-			           }
-			       });
-			builder.setNegativeButton("honza", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			        	   Login.loggedUser = 2;
-			        	   init();
-			           }
-			       });
-
-			// Create the AlertDialog
-			AlertDialog dialog = builder.create();
-			dialog.show();
+			chooseUser();
 		}
 		
+		if (Login.loggedUser != -1){ 
+			init();
+		}
 		
-		
-		
-		
-		
-		
+		Toast.makeText(this, Messages.messages + "", Toast.LENGTH_LONG).show();
 		
 	}
 
@@ -107,6 +89,11 @@ public class MainActivity extends Activity {
 	}
 
 	
+	/**
+	 * zobrazuje radky s jednotlivymi uzivateli a jejich posledni zpravu
+	 * @author vojta
+	 *
+	 */
 	public class UserMessagesAdapter extends BaseAdapter {
 
 		Context context;
@@ -117,8 +104,8 @@ public class MainActivity extends Activity {
 		}
 
 		@Override
-		public int getCount() {
-			return Messages.messages.size();
+		public int getCount() {			
+			return Messages.messages.keySet().size();
 		}
 
 		@Override
@@ -127,7 +114,7 @@ public class MainActivity extends Activity {
 		}
 
 		@Override
-		public long getItemId(int arg0) {
+		public long getItemId(int arg0) {			
 			return arg0;
 		}
 
@@ -138,24 +125,29 @@ public class MainActivity extends Activity {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.main_screen_users, parent, false);
 		
-			
-			//TODO - tohle asi uplne nebude fungovat :)
-			//chce to zobrazit posledni zpravu (podle datumu), v tomhle setu neni zaruceny poradi
+			//nalezeni posledni zpravy			
 			User key = (User) Messages.messages.keySet().toArray()[position];
 			ArrayList<Message> msgs = Messages.messages.get(key);
+			
+			//seradit zpravy
+			Collections.sort(msgs, new MessageComparator());
+			
+			//do helperu ulozime zpravy tohoto uzivatele, abysme je v dalsim kroku mohli ziskat podle jejich pozice
+			Helper.positionMessages.add(key);
+
 			
 			ImageView img = (ImageView) convertView.findViewById(R.id.mainScreenUserImage);
 			TextView username = (TextView) convertView.findViewById(R.id.mainScreenUserName);
 			TextView message = (TextView) convertView.findViewById(R.id.mainScreenMessage);
 			TextView date = (TextView) convertView.findViewById(R.id.mainScreenDate);
 			
-			int resId = convertView.getResources().getIdentifier(msgs.get(0).getFrom().getPhoto(), "drawable", context.getPackageName());
+			int resId = convertView.getResources().getIdentifier(msgs.get(msgs.size()-1).getFrom().getPhoto(), "drawable", context.getPackageName());
 						
 			img.setImageResource(resId);
-			username.setText(msgs.get(0).getFrom().getName());
-			message.setText(msgs.get(0).getMessage());
+			username.setText(msgs.get(msgs.size()-1).getFrom().getName());
+			message.setText(msgs.get(msgs.size()-1).getMessage());
 			
-			String datum = msgs.get(0).getDatetime().substring(5);
+			String datum = msgs.get(msgs.size()-1).getDatetime().substring(5);
 			datum = datum.replace("-", ".");
 			date.setText(datum);
 			
@@ -169,7 +161,8 @@ public class MainActivity extends Activity {
 	
 	
 	private void init() {
-
+		activity.setTitle(Login.getLoggedUser().getName());
+		
 		ListView lay = (ListView) findViewById(R.id.mainScreenListView);
 		lay.setAdapter(adapter);
 		
@@ -203,11 +196,9 @@ public class MainActivity extends Activity {
 					
 					//ulozime nove zpravy
 					Messages.saveToMem(activity);
-					
-					
-					
+															
 					//----------------- zobrazeni notifikace -----------------
-					NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+					Notification.Builder mBuilder = new Notification.Builder(
 							activity).setSmallIcon(R.drawable.ic_launcher)
 							.setContentTitle("PDA2013")
 							.setContentText("Prisla nova zprava");
@@ -239,27 +230,47 @@ public class MainActivity extends Activity {
 		}.start();
 
 	}
-		//onclicklistener na prepinani adres pro pristup z domova nebo venku
-		CheckBox ch = (CheckBox) findViewById(R.id.domaCheckBox);
-		ch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+		
+		
+		
+		
+		//Listener na kliknuti na zpravu v ListView
+		lay.setOnItemClickListener(new OnItemClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					System.out.println("Menim na http://10.0.0.105");
-					NetWorkers.RECEIVEURL = "http://10.0.0.105/receive.php";
-					NetWorkers.SENDURL = "http://10.0.0.105/send.php";
-				}
-				else { 					
-					System.out.println("Menim na http://88.102.138.83:8080");
-					NetWorkers.RECEIVEURL = "http://88.102.138.83:8080/receive.php";
-					NetWorkers.SENDURL = "http://88.102.138.83:8080/send.php";
-				}
+			public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {			
+				ReadMessages.selectedMsg = position;
+				
+				Intent intent = new Intent(activity, ReadMessages.class);
+				startActivity(intent);
+				
 			}
 		});
+		
+		
 	}
 	
-	
+
+	private void chooseUser() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Vyberte uživatele");
+		builder.setPositiveButton("vojta", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		               Login.loggedUser = 1;
+		               init();
+		           }
+		       });
+		builder.setNegativeButton("honza", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   Login.loggedUser = 2;
+		        	   init();
+		           }
+		       });
+
+		// Create the AlertDialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
 	
 	
 }

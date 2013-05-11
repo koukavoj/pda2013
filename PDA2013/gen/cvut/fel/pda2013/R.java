@@ -65,7 +65,6 @@ public final class R {
         public static final int action_settings=0x7f080017;
         public static final int button1=0x7f080000;
         public static final int checkBox=0x7f080016;
-        public static final int domaCheckBox=0x7f080002;
         public static final int gridView1=0x7f080006;
         public static final int gridView2=0x7f08000b;
         public static final int horizontalScrollView1=0x7f080007;
@@ -79,6 +78,7 @@ public final class R {
         public static final int mainScreenMessage=0x7f08000e;
         public static final int mainScreenUserImage=0x7f08000d;
         public static final int mainScreenUserName=0x7f080010;
+        public static final int messageHistory=0x7f080002;
         public static final int pictDesc=0x7f080012;
         public static final int pictImage=0x7f080011;
         public static final int recipients=0x7f080005;
@@ -89,21 +89,24 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int activity_select_recipients=0x7f030001;
-        public static final int activity_write_message=0x7f030002;
-        public static final int main_screen_users=0x7f030003;
-        public static final int pictograms_layout=0x7f030004;
-        public static final int users_layout=0x7f030005;
+        public static final int activity_read_messages=0x7f030001;
+        public static final int activity_select_recipients=0x7f030002;
+        public static final int activity_write_message=0x7f030003;
+        public static final int main_screen_users=0x7f030004;
+        public static final int pictograms_layout=0x7f030005;
+        public static final int users_layout=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f070000;
-        public static final int select_recipients=0x7f070001;
-        public static final int write_message=0x7f070002;
+        public static final int read_messages=0x7f070001;
+        public static final int select_recipients=0x7f070002;
+        public static final int write_message=0x7f070003;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050002;
+        public static final int title_activity_read_messages=0x7f050005;
         public static final int title_activity_select_recipients=0x7f050003;
         public static final int title_activity_write_message=0x7f050004;
     }

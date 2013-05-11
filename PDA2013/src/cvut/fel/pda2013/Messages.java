@@ -28,8 +28,8 @@ public class Messages {
 		return null;
 	}
 	
-	private static void addMessageForUser(Message msg, User u) {
-		if (messages.get(u) != null) {
+	public static void addMessageForUser(Message msg, User u) {
+		if (messages.containsKey(u)) {
 			messages.get(u).add(msg);
 		}else {
 			ArrayList<Message> list = new ArrayList<Message>();
