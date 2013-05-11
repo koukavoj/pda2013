@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -93,7 +94,7 @@ public class WriteMessage extends Activity {
 	}
 	
 	//natahne a zobrazi piktogramy zajmen
-public void getPronouns(View v) {
+	public void getPronouns(View v) {
 //		clearShownPicts();
 		shownPicts = new ArrayList<Pictogram>(Pictograms.getPronouns());		
 		showAdapter = null;
@@ -103,6 +104,14 @@ public void getPronouns(View v) {
 	
 	//odeslani zpravy
 	public void send(View v) {
+		
+		//otestujem konektivitu
+		if (!Helper.isNetworkConnected(this)) {
+			Toast.makeText(this, "Neni internetove pripojeni! Zprava nebyla odeslana.", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		
 		List<String> msgs = new ArrayList<String>();
 		
 		String pictogramsText = "";
@@ -126,6 +135,9 @@ public void getPronouns(View v) {
 		}
 				
 		Toast.makeText(this, "Zprava odeslana!", Toast.LENGTH_SHORT).show();
+		
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
 		
 	}
 	

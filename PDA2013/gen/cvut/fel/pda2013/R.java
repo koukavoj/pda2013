@@ -57,14 +57,15 @@ public final class R {
         public static final int vojta=0x7f020021;
         public static final int vy=0x7f020022;
         public static final int white_border_all_around=0x7f020023;
-        public static final int white_border_top_bottom=0x7f020024;
-        public static final int zmrzlina=0x7f020025;
+        public static final int white_border_top_bottom_3dp=0x7f020024;
+        public static final int white_border_top_bottom_5dp=0x7f020025;
+        public static final int zmrzlina=0x7f020026;
     }
     public static final class id {
-        public static final int action_settings=0x7f080017;
+        public static final int action_settings=0x7f080018;
         public static final int button1=0x7f080000;
         public static final int button2=0x7f080001;
-        public static final int checkBox=0x7f080016;
+        public static final int checkBox=0x7f080017;
         public static final int domaCheckBox=0x7f080003;
         public static final int gridView1=0x7f080007;
         public static final int gridView2=0x7f08000c;
@@ -83,8 +84,9 @@ public final class R {
         public static final int pictImage=0x7f080012;
         public static final int recipients=0x7f080006;
         public static final int textView1=0x7f080005;
-        public static final int userImage=0x7f080014;
-        public static final int userName=0x7f080015;
+        public static final int userImage=0x7f080015;
+        public static final int userName=0x7f080016;
+        public static final int usersLayout=0x7f080014;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

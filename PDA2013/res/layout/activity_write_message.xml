@@ -46,7 +46,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/gridView1"
-        android:background="@drawable/white_border_top_bottom"
+        android:background="@drawable/white_border_top_bottom_5dp"
         android:padding="10dp" >
 
         <LinearLayout

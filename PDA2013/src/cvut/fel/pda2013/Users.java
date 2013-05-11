@@ -14,9 +14,17 @@ public class Users {
 	
 	public static void init() {
 		users.clear();
+		users.add(new User(0, "Kamarádi", "kamaradi"));
 		users.add(new User(1, "Vojta", "vojta"));
 		users.add(new User(2, "Honza", "honza"));
 		users.add(new User(3, "Pepa", "pepa"));		
+		
+		users.add(new User(4, "Rodina", "rodina"));
+		users.add(new User(5, "Marcelka", "marcelka"));		
+		users.add(new User(6, "Ségra", "segra"));
+		users.add(new User(7, "Bráchanec", "brachanec"));
+		
+		
 	}
 
 	public static List<User> getAllUsers() {

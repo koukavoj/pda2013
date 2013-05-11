@@ -1,12 +1,18 @@
 package cvut.fel.pda2013;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 public class Helper {
 
-	
+	public static boolean isNetworkConnected(Context ctx) {
+		  ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+		  NetworkInfo ni = cm.getActiveNetworkInfo();
+		  if (ni == null) {		   
+		   return false;
+		  } else
+		   return true;
+		 }
 	
 }

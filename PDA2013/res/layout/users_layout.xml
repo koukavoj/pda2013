@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:columnCount="1"
+    android:id="@+id/usersLayout"
+    android:background="@drawable/white_border_top_bottom_3dp"
     android:orientation="vertical" >
 
     <ImageView
