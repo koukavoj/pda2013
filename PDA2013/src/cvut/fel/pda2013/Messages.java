@@ -73,9 +73,12 @@ public class Messages {
 		
 	}
 
-	
+	/**
+	 * precte zpravy aktualniho uzivatele ze souboru s nazvem "user"+userId()
+	 * @param ctx
+	 */
 	public static void loadFromMem(Context ctx) {
-		String FILENAME = "messages";	
+		String FILENAME = "user" + Login.getLoggedUser().getId();	
 		
         try {
         	FileInputStream fos = ctx.openFileInput(FILENAME);
@@ -89,7 +92,7 @@ public class Messages {
 			messages = map;			
 			
 		} catch (IOException e) {
-			Toast.makeText(ctx, "I/O chyba pri cteni \n" + e.getStackTrace(), Toast.LENGTH_SHORT).show();			
+			Toast.makeText(ctx, "Soubor se zpravami neexistuje \n" + e.getStackTrace(), Toast.LENGTH_SHORT).show();			
 		} catch (ClassNotFoundException e) {
 			Toast.makeText(ctx, "ClassNotFoundException \n" + e.getStackTrace(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
@@ -98,8 +101,12 @@ public class Messages {
 		}
 	}
 
+	/**
+	 * ulozi aktualni zpravy aktualniho uzivatele do souboru s nazvem "user"+userId()
+	 * @param ctx
+	 */
 	public static void saveToMem(Context ctx) {
-		String FILENAME = "messages";	
+		String FILENAME = "user" + Login.getLoggedUser().getId();
 		
         try {
         	FileOutputStream fos = ctx.openFileOutput(FILENAME, Context.MODE_PRIVATE);

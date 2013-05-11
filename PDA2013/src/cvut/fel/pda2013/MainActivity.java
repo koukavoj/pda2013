@@ -1,20 +1,17 @@
 package cvut.fel.pda2013;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -44,94 +41,34 @@ public class MainActivity extends Activity {
 		activity = this;
 
 		Users.init();
+//
+		//vybrat uzivatele
+		if (Login.loggedUser == -1) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Vyberte uživatele");
+			builder.setPositiveButton("vojta", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               Login.loggedUser = 1;
+			               init();
+			           }
+			       });
+			builder.setNegativeButton("honza", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			        	   Login.loggedUser = 2;
+			        	   init();
+			           }
+			       });
+
+			// Create the AlertDialog
+			AlertDialog dialog = builder.create();
+			dialog.show();
+		}
 		
-		ListView lay = (ListView) findViewById(R.id.mainScreenListView);
-		lay.setAdapter(adapter);
 		
-		if (!Helper.isTimerRunning){ 
-			Helper.isTimerRunning = true;
-			
-			// pri prvnim spusteni naloadujeme ulozene zpravy
-			Messages.loadFromMem(this);
-			adapter.notifyDataSetChanged();
-			
-			
-			// checkujeme nove zpravy kazdych 10s
-			new CountDownTimer(999999999, 10000) {
-
-			@Override
-			public void onTick(long millisUntilFinished) {
-				List<Message> list = Messages.receiveMessages();
-				if (list.isEmpty()){
-					//zadne nove zpravy
-//					Toast.makeText(activity, "Zadne nove zpravy...",
-//							Toast.LENGTH_SHORT).show();
-				}
-				else {
-					//nove zpravy
-					Toast.makeText(activity,
-							"Nalezeno " + list.size() + " novych zprav",
-							Toast.LENGTH_SHORT).show();
-
-					//zpracovani zprav
-					Messages.ParseMessages(list);
-					
-					//ulozime nove zpravy
-					Messages.saveToMem(activity);
-					
-					
-					
-					//----------------- zobrazeni notifikace -----------------
-					NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-							activity).setSmallIcon(R.drawable.ic_launcher)
-							.setContentTitle("PDA2013")
-							.setContentText("Prisla nova zprava");
-
-					// Creates an explicit intent for an Activity in your app
-					Intent resultIntent = new Intent(activity,MainActivity.class);
-
-					TaskStackBuilder stackBuilder = TaskStackBuilder.create(activity);
-					
-					stackBuilder.addParentStack(MainActivity.class);
-					
-					stackBuilder.addNextIntent(resultIntent);
-					PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
-					mBuilder.setContentIntent(resultPendingIntent);
-					NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-					
-					mNotificationManager.notify(10, mBuilder.build());
-					
-					adapter.notifyDataSetChanged();
-				}
-
-			}
-
-			@Override
-			public void onFinish() {
-
-			}
-
-		}.start();
-
-	}
-		//onclicklistener na prepinani adres pro pristup z domova nebo venku
-		CheckBox ch = (CheckBox) findViewById(R.id.domaCheckBox);
-		ch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					System.out.println("Menim na http://10.0.0.105");
-					NetWorkers.RECEIVEURL = "http://10.0.0.105/receive.php";
-					NetWorkers.SENDURL = "http://10.0.0.105/send.php";
-				}
-				else { 					
-					System.out.println("Menim na http://88.102.138.83:8080");
-					NetWorkers.RECEIVEURL = "http://88.102.138.83:8080/receive.php";
-					NetWorkers.SENDURL = "http://88.102.138.83:8080/send.php";
-				}
-			}
-		});
+		
+		
+		
+		
 		
 		
 	}
@@ -229,5 +166,100 @@ public class MainActivity extends Activity {
 		}
 		
 	}
+	
+	
+	private void init() {
+
+		ListView lay = (ListView) findViewById(R.id.mainScreenListView);
+		lay.setAdapter(adapter);
+		
+		if (!Helper.isTimerRunning){ 
+			Helper.isTimerRunning = true;
+			
+			// pri prvnim spusteni naloadujeme ulozene zpravy
+			Messages.loadFromMem(this);
+			adapter.notifyDataSetChanged();
+			
+			
+			// checkujeme nove zpravy kazdych 10s
+			new CountDownTimer(999999999, 10000) {
+
+			@Override
+			public void onTick(long millisUntilFinished) {
+				List<Message> list = Messages.receiveMessages();
+				if (list.isEmpty()){
+					//zadne nove zpravy
+//					Toast.makeText(activity, "Zadne nove zpravy...",
+//							Toast.LENGTH_SHORT).show();
+				}
+				else {
+					//nove zpravy
+					Toast.makeText(activity,
+							"Nalezeno " + list.size() + " novych zprav",
+							Toast.LENGTH_SHORT).show();
+
+					//zpracovani zprav
+					Messages.ParseMessages(list);
+					
+					//ulozime nove zpravy
+					Messages.saveToMem(activity);
+					
+					
+					
+					//----------------- zobrazeni notifikace -----------------
+					NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+							activity).setSmallIcon(R.drawable.ic_launcher)
+							.setContentTitle("PDA2013")
+							.setContentText("Prisla nova zprava");
+
+					// Creates an explicit intent for an Activity in your app
+					Intent resultIntent = new Intent(activity,MainActivity.class);
+
+					TaskStackBuilder stackBuilder = TaskStackBuilder.create(activity);
+					
+					stackBuilder.addParentStack(MainActivity.class);
+					
+					stackBuilder.addNextIntent(resultIntent);
+					PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+					mBuilder.setContentIntent(resultPendingIntent);
+					NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+					
+					mNotificationManager.notify(10, mBuilder.build());
+					
+					adapter.notifyDataSetChanged();
+				}
+
+			}
+
+			@Override
+			public void onFinish() {
+
+			}
+
+		}.start();
+
+	}
+		//onclicklistener na prepinani adres pro pristup z domova nebo venku
+		CheckBox ch = (CheckBox) findViewById(R.id.domaCheckBox);
+		ch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					System.out.println("Menim na http://10.0.0.105");
+					NetWorkers.RECEIVEURL = "http://10.0.0.105/receive.php";
+					NetWorkers.SENDURL = "http://10.0.0.105/send.php";
+				}
+				else { 					
+					System.out.println("Menim na http://88.102.138.83:8080");
+					NetWorkers.RECEIVEURL = "http://88.102.138.83:8080/receive.php";
+					NetWorkers.SENDURL = "http://88.102.138.83:8080/send.php";
+				}
+			}
+		});
+	}
+	
+	
+	
 	
 }
