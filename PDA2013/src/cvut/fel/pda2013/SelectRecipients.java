@@ -129,19 +129,20 @@ public class SelectRecipients extends Activity {
 					
 					if (b.getId() == 0 || b.getId() == 4) { 
 					//pokud vyberu checkbox id=0 || id==4, tak se oznaci prislusne podcheckboxy teto skupiny	
-											
-						if (b.getId() == 0) 
-							for (int i = 1; i<=3; i++) 								
-								((CheckBox) (findViewById(i))).setChecked(isChecked);
-							
-
-														
-						if (b.getId() == 4)							
-							for (int i = 5; i<=7; i++)
-								((CheckBox) (findViewById(i))).setChecked(isChecked);
-							
-				
+						// 1 -> 3 loop pro 0, 5 -> 7 loop pro 4
+						int start = b.getId()+1;
+						int end = start+2; 
 						
+						for (int i = start; i<=end; i++)
+						{
+							if (isChecked)
+								SelectRecipients.recipients.add(b.getId());
+							else
+								SelectRecipients.recipients.remove(b.getId());
+							
+							((CheckBox) (findViewById(i))).setChecked(isChecked);
+							
+						}							
 						
 					} else {
 					
