@@ -176,6 +176,20 @@ public class MainActivity extends Activity {
 			Helper.positionMessages.add(key);
 
 			
+			//zobrazeni sipky
+			ImageView arr = (ImageView) convertView.findViewById(R.id.mainScreenArrow);
+			//Toast.makeText(activity, msgs.get(msgs.size()-1).getFrom() + "\n" + key, Toast.LENGTH_LONG).show();
+			if (Login.getLoggedUser().getId() == msgs.get(msgs.size()-1).getFrom().getId()){				
+				Toast.makeText(activity, "stejne", Toast.LENGTH_SHORT).show();
+				arr.setImageResource(R.drawable.greenarrow);
+			}
+			else {
+				Toast.makeText(activity, "jine", Toast.LENGTH_SHORT).show();
+				arr.setImageResource(R.drawable.redarrow);
+			}
+			
+			
+			
 			ImageView img = (ImageView) convertView.findViewById(R.id.mainScreenUserImage);
 			TextView username = (TextView) convertView.findViewById(R.id.mainScreenUserName);
 			//TODO TextView message = (TextView) convertView.findViewById(R.id.mainScreenMessage);
@@ -183,17 +197,17 @@ public class MainActivity extends Activity {
 			//message.setEnabled(false);
 			TextView date = (TextView) convertView.findViewById(R.id.mainScreenDate);
 			
-			int resId = convertView.getResources().getIdentifier(msgs.get(msgs.size()-1).getFrom().getPhoto(), "drawable", context.getPackageName());
-						
+			int resId = convertView.getResources().getIdentifier(key.getPhoto(), "drawable", context.getPackageName());								
+			
 			img.setImageResource(resId);
-			username.setText(msgs.get(msgs.size()-1).getFrom().getName());
+			username.setText(key.getName());
 			//TODO message.setText(msgs.get(msgs.size()-1).getMessage());
 			ImageAdapter imAd=new ImageAdapter(context,msgs.get(msgs.size()-1).getMessage());
 			message.setAdapter(imAd);
 			int height=150*(imAd.getCount()/5+1);
 			if(imAd.getCount()%5==0)height-=150;
 			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(600,height);
-			lp.leftMargin=90;
+			lp.leftMargin=140;
 			message.setLayoutParams(lp);
 			message.setOnItemClickListener(new MyGridOnItemClickListener(position));
 
