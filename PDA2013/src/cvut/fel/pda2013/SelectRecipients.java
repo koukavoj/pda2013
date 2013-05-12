@@ -129,9 +129,9 @@ public class SelectRecipients extends Activity {
 					
 					if (b.getId() == 0 || b.getId() == 4) { 
 					//pokud vyberu checkbox id=0 || id==4, tak se oznaci prislusne podcheckboxy teto skupiny	
-						// 1 -> 3 loop pro 0, 5 -> 7 loop pro 4
+						// 1 -> 3 loop pro 0, 5 -> 10 loop pro 4
 						int start = b.getId()+1;
-						int end = start+2; 
+						int end = b.getId() == 0 ? 3 : 10; 
 						
 						for (int i = start; i<=end; i++)
 						{

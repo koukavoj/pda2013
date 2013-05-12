@@ -8,12 +8,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".SelectRecipients" >
 
+        <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_horizontal"        
+        android:text="Vyberte příjemce"
+        android:textSize="40sp" />
+        
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:layout_height="900dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true" >
 
     </ListView>
 
@@ -23,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/listView1"
         android:layout_below="@+id/listView1"
-        android:layout_marginLeft="153dp"
-        android:layout_marginTop="158dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="40dp"
         android:height="80dp"
         android:minWidth="400dp"
         android:text="Potvrdit výběr"
