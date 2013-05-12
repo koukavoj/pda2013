@@ -23,6 +23,9 @@ public class Users {
 		users.add(new User(5, "Marcelka", "marcelka"));		
 		users.add(new User(6, "Ségra", "segra"));
 		users.add(new User(7, "Bráchanec", "brachanec"));
+		users.add(new User(8, "Marcelka2", "marcelka"));		
+		users.add(new User(9, "Ségra2", "segra"));
+		users.add(new User(10, "Bráchanec2", "brachanec"));
 		
 		
 	}

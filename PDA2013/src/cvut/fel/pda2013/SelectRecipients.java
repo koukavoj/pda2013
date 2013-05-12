@@ -137,7 +137,7 @@ public class SelectRecipients extends Activity {
 
 														
 						if (b.getId() == 4)							
-							for (int i = 5; i<=7; i++)
+							for (int i = 5; i<=10; i++)
 								((CheckBox) (findViewById(i))).setChecked(isChecked);
 							
 				
