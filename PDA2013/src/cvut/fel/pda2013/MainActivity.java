@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
 			init();
 		}
 		
-		Toast.makeText(this, Messages.messages + "", Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, Messages.messages + "", Toast.LENGTH_LONG).show();
 		
 	}
 
