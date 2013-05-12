@@ -414,6 +414,7 @@ public class WriteMessage extends Activity {
 			if(imAd.getCount()%5==0)height-=145;
 			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(600,height);
 			lp.leftMargin=140;
+			lp.topMargin=15;
 			message.setLayoutParams(lp);
 			message.setEnabled(false);
 			
