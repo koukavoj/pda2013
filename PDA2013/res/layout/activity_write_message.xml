@@ -6,34 +6,30 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    
     tools:context=".WriteMessage" >
 
     <RelativeLayout
+        android:id="@+id/lastMessage"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/imageButton1"
         android:layout_alignParentLeft="true"
-        android:id="@+id/lastMessage"
-        android:visibility="invisible"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:visibility="invisible" >
 
-	            
-			    <ListView
-		        android:id="@+id/lastMessageView"
-		        android:layout_width="fill_parent"
-		        android:layout_height="fill_parent">
-		   		 </ListView>	
-
+        <ListView
+            android:id="@+id/lastMessageView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+        </ListView>
     </RelativeLayout>
-    
-    
+
     <TextView
         android:id="@+id/prijemci"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Příjemci: "
-        android:textSize="32sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/recipients"
@@ -43,7 +39,7 @@
         android:layout_alignBottom="@+id/textView1"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/prijemci"
-        android:textSize="32sp" />
+        android:textSize="20sp" />
 
     <GridView
         android:id="@+id/gridView1"
@@ -51,51 +47,101 @@
         android:layout_height="400dp"
         android:layout_alignLeft="@+id/textView1"
         android:layout_below="@+id/textView1"
-        android:background="@drawable/white_border_all_around"
-        android:layout_marginTop="120dp"
         android:layout_marginBottom="5dp"
-        android:padding="4dp"
-        android:numColumns="5" >
+        android:layout_marginTop="120dp"
+        android:background="@drawable/white_border_all_around"
+        android:numColumns="5"
+        android:padding="4dp" >
     </GridView>
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView1"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="180dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/gridView1"
         android:background="@drawable/white_border_top_bottom_5dp"
         android:padding="10dp" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:orientation="horizontal" >
 
-            <ImageView
-                android:id="@+id/imageView1"
+            <RelativeLayout
+                android:id="@+id/catFurniture"
                 android:layout_width="100dp"
-                android:layout_height="100dp"   
-                android:onClick="getFurniture"             
-                android:src="@drawable/skrin" />
+                android:layout_height="fill_parent" >
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="100dp"
-                android:layout_height="100dp"                
-                android:layout_marginLeft="5dp"
-                android:onClick="getFood"                
-                android:src="@drawable/dort" />
+                <ImageView
+                    android:id="@+id/skrinImage"
+                    android:layout_width="95dp"
+                    android:layout_height="95dp"
+                    android:layout_centerInParent="true"                    
+                    android:onClick="getFurniture"
+                    android:src="@drawable/skrin" />
 
-            <ImageView
-                android:id="@+id/imageView3"
+                <TextView
+                    style="@android:style/TextAppearance.DeviceDefault.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/skrinImage"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="5dp"
+                    android:text="Nábytek" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/catFood"
                 android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="5dp"
-                android:onClick="getPronouns"
-                android:src="@drawable/my" />
-        </LinearLayout>
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/catFurniture" >
+
+                <ImageView
+                    android:id="@+id/dortImage"
+                    android:layout_width="95dp"
+                    android:layout_height="95dp"
+                    android:layout_centerInParent="true"
+                    android:onClick="getFood"
+                    android:src="@drawable/dort" />
+
+                <TextView                    
+                    style="@android:style/TextAppearance.DeviceDefault.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dortImage"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="5dp"
+                    android:text="Jídlo" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/catPronouns"
+                android:layout_width="100dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/catFood" >
+
+                <ImageView
+                    android:id="@+id/lidiImage"
+                    android:layout_width="95dp"
+                    android:layout_height="95dp"
+                    android:layout_centerInParent="true"
+                    android:onClick="getPronouns"
+                    android:src="@drawable/my" />
+
+                <TextView
+                    style="@android:style/TextAppearance.DeviceDefault.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lidiImage"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="5dp"                    
+                    android:text="Zájmena" />
+            </RelativeLayout>
+        </RelativeLayout>
     </HorizontalScrollView>
 
     <GridView
@@ -104,9 +150,8 @@
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/horizontalScrollView1"
-        android:layout_marginTop="10dp"        
+        android:layout_marginTop="10dp"
         android:numColumns="6" >
-
     </GridView>
 
     <ImageButton
@@ -117,8 +162,7 @@
         android:layout_marginLeft="61dp"
         android:layout_marginTop="153dp"
         android:layout_toRightOf="@+id/gridView1"
-        android:onClick="send"        
-        android:src="@drawable/send"         
-        />
-    
+        android:onClick="send"
+        android:src="@drawable/send" />
+
 </RelativeLayout>

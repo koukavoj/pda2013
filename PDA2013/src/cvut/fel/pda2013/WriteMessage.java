@@ -14,6 +14,7 @@ import cvut.fel.pda2013.MainActivity.ImageAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +52,11 @@ public class WriteMessage extends Activity {
 	//obsahuje posledni zpravu, pokud odepisujeme
 	public static Message messageToReply = null;	//TODO: smazat
 	ArrayList<Message> msgs=null;	//historie komunikace
+	
+	
+	RelativeLayout food = null;
+	RelativeLayout furniture = null;
+	RelativeLayout pronouns = null;
 	
 	
 	@SuppressWarnings("unchecked")
@@ -109,12 +115,18 @@ public class WriteMessage extends Activity {
 		showAdapter = new ShowPictogramsGridViewAdapter(this);
 		showPictsGridView.setAdapter(showAdapter);
 
+		
+		food = (RelativeLayout) findViewById(R.id.catFood);
+		furniture = (RelativeLayout) findViewById(R.id.catFurniture);
+		pronouns = (RelativeLayout) findViewById(R.id.catPronouns);
+		
+		furniture.setBackgroundResource(R.drawable.blue_border_all_around);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.write_message, menu);
+		getMenuInflater().inflate(R.menu.write_message, menu);		
 		return true;
 	}
 	
@@ -125,6 +137,15 @@ public class WriteMessage extends Activity {
 		showAdapter = null;
 		showAdapter = new ShowPictogramsGridViewAdapter(this);
 		showPictsGridView.setAdapter(showAdapter);
+		
+		
+		
+		
+		furniture.setBackgroundResource(R.drawable.blue_border_all_around);
+		food.setBackgroundResource(0);
+		pronouns.setBackgroundResource(0);
+		
+		
 	}
 	
 	//natahne a zobrazi piktogramy jidla
@@ -134,6 +155,10 @@ public class WriteMessage extends Activity {
 		showAdapter = null;
 		showAdapter = new ShowPictogramsGridViewAdapter(this);
 		showPictsGridView.setAdapter(showAdapter);
+		
+		furniture.setBackgroundResource(0);
+		food.setBackgroundResource(R.drawable.blue_border_all_around);
+		pronouns.setBackgroundResource(0);
 	}
 	
 	//natahne a zobrazi piktogramy zajmen
@@ -143,7 +168,14 @@ public class WriteMessage extends Activity {
 		showAdapter = null;
 		showAdapter = new ShowPictogramsGridViewAdapter(this);
 		showPictsGridView.setAdapter(showAdapter);
+		
+		furniture.setBackgroundResource(0);
+		food.setBackgroundResource(0);
+		pronouns.setBackgroundResource(R.drawable.blue_border_all_around);
 		}
+	
+	
+	
 	
 	//odeslani zpravy
 	public void send(View v) {
@@ -203,6 +235,7 @@ public class WriteMessage extends Activity {
 	 * @author vojta
 	 *
 	 */
+	
 	public class WriteMessageGridViewAdapter extends BaseAdapter {
 
 		private Context context;
