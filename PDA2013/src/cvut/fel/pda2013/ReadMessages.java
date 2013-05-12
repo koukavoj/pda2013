@@ -52,6 +52,7 @@ public class ReadMessages extends Activity {
 		WriteMessage.messageToReply = msgs.get(msgs.size()-1);
 		
 		Intent intent = new Intent(this, WriteMessage.class);
+		intent.putExtra("messages", msgs);
 		startActivity(intent);
 		
 		

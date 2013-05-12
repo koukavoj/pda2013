@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,8 +47,11 @@ public class WriteMessage extends Activity {
 	public static boolean reply = false;
 	
 	//obsahuje posledni zpravu, pokud odepisujeme
-	public static Message messageToReply = null;
+	public static Message messageToReply = null;	//TODO: smazat
+	ArrayList<Message> msgs=null;	//historie komunikace
 	
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,8 +77,13 @@ public class WriteMessage extends Activity {
 			t.setVisibility(View.INVISIBLE);
 			t1.setVisibility(View.INVISIBLE);
 			
-			GridView gv = (GridView) findViewById(R.id.lastMessageView);
-			gv.setAdapter(new LastMessagesAdapter(this));
+			//GridView gv = (GridView) findViewById(R.id.lastMessageView);
+			ListView lv = (ListView) findViewById(R.id.lastMessageView);
+			Intent myintent = getIntent();
+			msgs=(ArrayList<Message>)myintent.getExtras().getSerializable("messages");
+			if(msgs==null) Log.w("myerror","@@@@@@@@@@@@@@msgs bylo null@@@@@@@@@@@@@@@@@@@@@@@@");
+			lv.setAdapter(new LastMessagesAdapter(this));
+			lv.setSelection(msgs.size()-1);
 			
 			
 		} else {			
@@ -312,8 +322,8 @@ public class WriteMessage extends Activity {
 	}
 
 	/**
-	 * adapter na zobrazeni posledni zpravy pri odpovedi
-	 * @author vojta
+	 * adapter na zobrazeni poslednich zprav pri odpovedi
+	 * @author vojta,minarja
 	 *
 	 */
 	public class LastMessagesAdapter extends BaseAdapter {
@@ -327,17 +337,17 @@ public class WriteMessage extends Activity {
 
 		@Override
 		public int getCount() {			
-			return 1;
+			return msgs.size();
 		}
 
 		@Override
 		public Object getItem(int arg0) {
-			return messageToReply;
+			return msgs.get(arg0);
 		}
 
 		@Override
 		public long getItemId(int arg0) {			
-			return messageToReply.hashCode();
+			return arg0;
 		}
 
 		@Override
@@ -351,13 +361,13 @@ public class WriteMessage extends Activity {
 			TextView message = (TextView) convertView.findViewById(R.id.mainScreenMessage);
 			TextView date = (TextView) convertView.findViewById(R.id.mainScreenDate);
 			
-			int resId = convertView.getResources().getIdentifier(messageToReply.getFrom().getPhoto(), "drawable", context.getPackageName());
+			int resId = convertView.getResources().getIdentifier(msgs.get(position).getFrom().getPhoto(), "drawable", context.getPackageName());
 						
 			img.setImageResource(resId);
-			username.setText(messageToReply.getFrom().getName());
-			message.setText(messageToReply.getMessage());
+			username.setText(msgs.get(position).getFrom().getName());
+			message.setText(msgs.get(position).getMessage());
 			
-			String datum = messageToReply.getDatetime().substring(5);
+			String datum = msgs.get(position).getDatetime().substring(5);
 			datum = datum.replace("-", ".");
 			date.setText(datum);
 						
