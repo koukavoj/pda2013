@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cvut.fel.pda2013.MainActivity.ImageAdapter;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -358,14 +360,23 @@ public class WriteMessage extends Activity {
 					
 			ImageView img = (ImageView) convertView.findViewById(R.id.mainScreenUserImage);
 			TextView username = (TextView) convertView.findViewById(R.id.mainScreenUserName);
-			TextView message = (TextView) convertView.findViewById(R.id.mainScreenMessage);
+			//TextView message = (TextView) convertView.findViewById(R.id.mainScreenMessage);
+			GridView message = (GridView) convertView.findViewById(R.id.mainScreenMessage);
+			message.setEnabled(false);
 			TextView date = (TextView) convertView.findViewById(R.id.mainScreenDate);
 			
 			int resId = convertView.getResources().getIdentifier(msgs.get(position).getFrom().getPhoto(), "drawable", context.getPackageName());
 						
 			img.setImageResource(resId);
 			username.setText(msgs.get(position).getFrom().getName());
-			message.setText(msgs.get(position).getMessage());
+			//message.setText(msgs.get(position).getMessage());
+			ImageAdapter imAd=new ImageAdapter(context,msgs.get(position).getMessage());
+			message.setAdapter(imAd);
+			int height=150*(imAd.getCount()/5+1);
+			if(imAd.getCount()%5==0)height-=150;
+			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(600,height);
+			lp.leftMargin=90;
+			message.setLayoutParams(lp);
 			
 			String datum = msgs.get(position).getDatetime().substring(5);
 			datum = datum.replace("-", ".");
@@ -377,5 +388,52 @@ public class WriteMessage extends Activity {
 		}
 		
 	}
+	
+	public class ImageAdapter extends BaseAdapter {
+	    private Context mContext;
+	    private String [] mess;
+
+	    public ImageAdapter(Context c, String message) {
+	        mContext = c;
+	        mess=message.split(",");
+	    }
+
+	    public int getCount() {
+	        return mess.length;
+	    }
+
+	    public Object getItem(int position) {
+	        return mess[position];
+	    }
+
+	    public long getItemId(int position) {
+	        return position;
+	    }
+
+	    // create a new ImageView for each item referenced by the Adapter
+	    public View getView(int position, View convertView, ViewGroup parent) {
+			if (convertView == null) {
+
+				LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.pictograms_layout, parent, false);
+				
+				ImageView pictImage = (ImageView) convertView.findViewById(R.id.pictImage);
+				TextView pictDesc = (TextView) convertView.findViewById(R.id.pictDesc);
+
+				String pic = mess[position];
+
+				int photoId = convertView.getResources().getIdentifier(pic, "drawable",mContext.getPackageName());
+
+				pictDesc.setText(pic);
+
+				pictImage.setImageResource(photoId);
+
+				return convertView;
+			} else
+				return (View) convertView;
+		}
+	
+	
+	}	
 	
 }

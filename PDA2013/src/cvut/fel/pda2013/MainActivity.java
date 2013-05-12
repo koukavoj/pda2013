@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cvut.fel.pda2013.ReadMessages.ImageAdapter;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -21,12 +23,15 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -173,19 +178,30 @@ public class MainActivity extends Activity {
 			
 			ImageView img = (ImageView) convertView.findViewById(R.id.mainScreenUserImage);
 			TextView username = (TextView) convertView.findViewById(R.id.mainScreenUserName);
-			TextView message = (TextView) convertView.findViewById(R.id.mainScreenMessage);
+			//TODO TextView message = (TextView) convertView.findViewById(R.id.mainScreenMessage);
+			GridView message = (GridView) convertView.findViewById(R.id.mainScreenMessage);
+			//message.setEnabled(false);
 			TextView date = (TextView) convertView.findViewById(R.id.mainScreenDate);
 			
 			int resId = convertView.getResources().getIdentifier(msgs.get(msgs.size()-1).getFrom().getPhoto(), "drawable", context.getPackageName());
 						
 			img.setImageResource(resId);
 			username.setText(msgs.get(msgs.size()-1).getFrom().getName());
-			message.setText(msgs.get(msgs.size()-1).getMessage());
+			//TODO message.setText(msgs.get(msgs.size()-1).getMessage());
+			ImageAdapter imAd=new ImageAdapter(context,msgs.get(msgs.size()-1).getMessage());
+			message.setAdapter(imAd);
+			int height=150*(imAd.getCount()/5+1);
+			if(imAd.getCount()%5==0)height-=150;
+			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(600,height);
+			lp.leftMargin=90;
+			message.setLayoutParams(lp);
+			message.setOnItemClickListener(new MyGridOnItemClickListener(position));
+
 			
 			String datum = msgs.get(msgs.size()-1).getDatetime().substring(5);
 			datum = datum.replace("-", ".");
 			date.setText(datum);
-			
+
 			
 
 			return convertView;
@@ -282,6 +298,8 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+
+		
 		
 	}
 	
@@ -307,5 +325,72 @@ public class MainActivity extends Activity {
 		dialog.show();
 	}
 	
+	public class ImageAdapter extends BaseAdapter {
+	    private Context mContext;
+	    private String [] mess;
+
+	    public ImageAdapter(Context c, String message) {
+	        mContext = c;
+	        mess=message.split(",");
+	    }
+
+	    public int getCount() {
+	        return mess.length;
+	    }
+
+	    public Object getItem(int position) {
+	        return mess[position];
+	    }
+
+	    public long getItemId(int position) {
+	        return position;
+	    }
+
+	    // create a new ImageView for each item referenced by the Adapter
+	    public View getView(int position, View convertView, ViewGroup parent) {
+			if (convertView == null) {
+
+				LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.pictograms_layout, parent, false);
+				
+				ImageView pictImage = (ImageView) convertView.findViewById(R.id.pictImage);
+				TextView pictDesc = (TextView) convertView.findViewById(R.id.pictDesc);
+
+				String pic = mess[position];
+
+				int photoId = convertView.getResources().getIdentifier(pic, "drawable",mContext.getPackageName());
+
+				pictDesc.setText(pic);
+
+				pictImage.setImageResource(photoId);
+
+				return convertView;
+			} else
+				return (View) convertView;
+		}
+	
+	
+	}
+	
+	class MyGridOnItemClickListener implements OnItemClickListener {
+		int pos;
+		
+		MyGridOnItemClickListener(int position){
+			pos=position;
+			
+		}
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3)  {			
+			ReadMessages.selectedMsg = pos;
+			
+			Intent intent = new Intent(activity, ReadMessages.class);
+			startActivity(intent);
+			
+		}
+
+
+	}
 	
 }

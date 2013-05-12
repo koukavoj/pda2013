@@ -11,16 +11,16 @@
         android:layout_height="80dp"
         android:src="@drawable/ic_launcher" />
 
-    <TextView
+    <GridView
         android:id="@+id/mainScreenMessage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/mainScreenUserImage"
-        android:layout_marginBottom="21dp"
+        android:layout_height="300dp"
         android:layout_marginLeft="50dp"
         android:layout_toRightOf="@+id/mainScreenUserImage"
-        android:text="Large Text"        
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:numColumns="5"
+        android:padding="4dp" >
+
+    </GridView>
 
     <TextView
         android:id="@+id/mainScreenDate"
