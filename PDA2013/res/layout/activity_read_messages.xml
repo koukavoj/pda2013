@@ -33,12 +33,12 @@
     <Button
         android:id="@+id/button1"
         android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:gravity="center_horizontal" 
+        android:layout_height="80dp" 
         android:layout_marginTop="1050dp"
         android:layout_marginLeft="220dp"
+        android:gravity="center_vertical|center_horizontal"
         android:text="Odepsat"
         android:onClick="reply"
-        android:textSize="70sp" />
+        android:textSize="40sp" />
 
 </RelativeLayout>
