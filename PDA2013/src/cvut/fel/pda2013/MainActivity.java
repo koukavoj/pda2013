@@ -38,7 +38,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
 	Activity activity;
-	UserMessagesAdapter adapter = new UserMessagesAdapter(this);
+	static UserMessagesAdapter adapter = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		activity = this;
 
+		adapter = new UserMessagesAdapter();
+		
 		Users.init();
 //
 		//vybrat uzivatele
@@ -138,9 +140,9 @@ public class MainActivity extends Activity {
 
 		Context context;
 		
-		public UserMessagesAdapter(Context context) {
+		public UserMessagesAdapter() {
 			super();
-			this.context = context;
+			this.context = activity;
 		}
 
 		@Override
