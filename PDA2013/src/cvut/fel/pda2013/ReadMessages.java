@@ -30,8 +30,11 @@ public class ReadMessages extends Activity {
 		
 		ListView lv = (ListView) findViewById(R.id.messageHistory);
 		lv.setAdapter(new UserMessagesHistoryAdapter(this));
-		
+		lv.setSelection(lv.getCount()-1);
+		TextView tv = (TextView) findViewById(R.id.textView);
 		u = (User) Helper.positionMessages.get(selectedMsg);
+		
+		tv.setText("Historie komunikace s "+u.getName());
 		
 	}
 
