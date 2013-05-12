@@ -405,11 +405,12 @@ public class WriteMessage extends Activity {
 			//message.setText(msgs.get(position).getMessage());
 			ImageAdapter imAd=new ImageAdapter(context,msgs.get(position).getMessage());
 			message.setAdapter(imAd);
-			int height=150*(imAd.getCount()/5+1);
-			if(imAd.getCount()%5==0)height-=150;
+			int height=145*(imAd.getCount()/5+1);
+			if(imAd.getCount()%5==0)height-=145;
 			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(600,height);
 			lp.leftMargin=90;
 			message.setLayoutParams(lp);
+			message.setEnabled(false);
 			
 			String datum = msgs.get(position).getDatetime().substring(5);
 			datum = datum.replace("-", ".");
@@ -460,6 +461,7 @@ public class WriteMessage extends Activity {
 				pictDesc.setText(pic);
 
 				pictImage.setImageResource(photoId);
+				pictImage.setPadding(5, 5, 5, 5);
 
 				return convertView;
 			} else

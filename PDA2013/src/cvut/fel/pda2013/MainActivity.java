@@ -190,8 +190,8 @@ public class MainActivity extends Activity {
 			//TODO message.setText(msgs.get(msgs.size()-1).getMessage());
 			ImageAdapter imAd=new ImageAdapter(context,msgs.get(msgs.size()-1).getMessage());
 			message.setAdapter(imAd);
-			int height=150*(imAd.getCount()/5+1);
-			if(imAd.getCount()%5==0)height-=150;
+			int height=145*(imAd.getCount()/5+1);
+			if(imAd.getCount()%5==0)height-=145;
 			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(600,height);
 			lp.leftMargin=90;
 			message.setLayoutParams(lp);
@@ -363,6 +363,7 @@ public class MainActivity extends Activity {
 				pictDesc.setText(pic);
 
 				pictImage.setImageResource(photoId);
+				pictImage.setPadding(5, 5, 5, 5);
 
 				return convertView;
 			} else
