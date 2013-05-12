@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ReadMessages extends Activity {
 
@@ -109,6 +110,21 @@ public class ReadMessages extends Activity {
 			Helper.positionMessages.add(key);
 
 			
+			//zobrazeni sipky
+			ImageView arr = (ImageView) convertView.findViewById(R.id.mainScreenArrow);
+			//Toast.makeText(activity, msgs.get(msgs.size()-1).getFrom() + "\n" + key, Toast.LENGTH_LONG).show();
+			if (Login.getLoggedUser().getId() == msgs.get(position).getFrom().getId()){				
+				Toast.makeText(context, "stejne", Toast.LENGTH_SHORT).show();
+				arr.setImageResource(R.drawable.greenarrow);
+			}
+			else {
+				Toast.makeText(context, "jine", Toast.LENGTH_SHORT).show();
+				arr.setImageResource(R.drawable.redarrow);
+			}
+			
+			
+			
+			
 			ImageView img = (ImageView) convertView.findViewById(R.id.mainScreenUserImage);
 			TextView username = (TextView) convertView.findViewById(R.id.mainScreenUserName);
 			GridView message = (GridView) convertView.findViewById(R.id.mainScreenMessage);
@@ -125,7 +141,7 @@ public class ReadMessages extends Activity {
 			int height=145*(imAd.getCount()/5+1);
 			if(imAd.getCount()%5==0)height-=145;
 			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(600,height);
-			lp.leftMargin=90;
+			lp.leftMargin=140;
 			message.setLayoutParams(lp);
 			message.setEnabled(false);
 			

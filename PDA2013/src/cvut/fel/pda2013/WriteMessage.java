@@ -400,6 +400,22 @@ public class WriteMessage extends Activity {
 			
 			int resId = convertView.getResources().getIdentifier(msgs.get(position).getFrom().getPhoto(), "drawable", context.getPackageName());
 						
+			
+			//zobrazeni sipky
+			ImageView arr = (ImageView) convertView.findViewById(R.id.mainScreenArrow);
+			//Toast.makeText(activity, msgs.get(msgs.size()-1).getFrom() + "\n" + key, Toast.LENGTH_LONG).show();
+			if (Login.getLoggedUser().getId() == msgs.get(position).getFrom().getId()){				
+				Toast.makeText(context, "stejne", Toast.LENGTH_SHORT).show();
+				arr.setImageResource(R.drawable.greenarrow);
+			}
+			else {
+				Toast.makeText(context, "jine", Toast.LENGTH_SHORT).show();
+				arr.setImageResource(R.drawable.redarrow);
+			}
+			
+			
+			
+			
 			img.setImageResource(resId);
 			username.setText(msgs.get(position).getFrom().getName());
 			//message.setText(msgs.get(position).getMessage());
@@ -408,7 +424,7 @@ public class WriteMessage extends Activity {
 			int height=145*(imAd.getCount()/5+1);
 			if(imAd.getCount()%5==0)height-=145;
 			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(600,height);
-			lp.leftMargin=90;
+			lp.leftMargin=140;
 			message.setLayoutParams(lp);
 			message.setEnabled(false);
 			
