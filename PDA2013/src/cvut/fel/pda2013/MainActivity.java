@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -88,6 +89,40 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
 
+	
+	/**
+	 * prepsani chovani tlacitka zpet na hlavni obrazovce
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if ((keyCode == KeyEvent.KEYCODE_BACK)) { 
+	       
+	    	//opravdu ukoncit dialog
+	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Opravdu chcete aplikaci odsunout na pozadí?");
+			builder.setPositiveButton("Ano", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               moveTaskToBack(true);
+			           }
+			       });
+			builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			        	   //nic
+			           }
+			       });
+
+			// Create the AlertDialog
+			AlertDialog dialog = builder.create();
+			dialog.show();
+	    	
+	    	
+	    	
+	    	
+	    	
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
 	
 	/**
 	 * zobrazuje radky s jednotlivymi uzivateli a jejich posledni zpravu
