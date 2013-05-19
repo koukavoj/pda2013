@@ -13,7 +13,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.Toast;
 
 public class Messages {

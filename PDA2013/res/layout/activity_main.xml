@@ -17,7 +17,7 @@
         android:height="80dip"
         android:minWidth="400dp"
         android:onClick="newMessage"
-        android:text="Nová zpráva"
+        android:text="@string/new_message"
         android:textSize="40sp" />
 
     <ListView

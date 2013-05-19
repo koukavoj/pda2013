@@ -3,18 +3,14 @@ package cvut.fel.pda2013;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cvut.fel.pda2013.MainActivity.ImageAdapter;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -185,9 +181,6 @@ public class WriteMessage extends Activity {
 			Toast.makeText(this, "Neni internetove pripojeni! Zprava nebyla odeslana.", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
-		
-		List<String> msgs = new ArrayList<String>();
 		
 		String pictogramsText = "";
 		
