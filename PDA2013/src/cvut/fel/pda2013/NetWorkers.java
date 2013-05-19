@@ -80,8 +80,8 @@ public class NetWorkers {
 
 		DataOutputStream out = new DataOutputStream(conn.getOutputStream());
 
-		Set keys = data.keySet();
-		Iterator keyIter = keys.iterator();
+		Set<String> keys = data.keySet();
+		Iterator<String> keyIter = keys.iterator();
 		String content = "";
 		for (int i = 0; keyIter.hasNext(); i++) {
 			Object key = keyIter.next();

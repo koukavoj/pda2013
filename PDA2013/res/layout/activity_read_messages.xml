@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal" 
         android:layout_marginLeft="120dp"
-        android:text="Historie komunikace"
+        android:text="@string/com_history"
         android:textSize="40sp" />
     
     <LinearLayout
@@ -37,7 +37,7 @@
         android:layout_marginTop="1050dp"
         android:layout_marginLeft="220dp"
         android:gravity="center_vertical|center_horizontal"
-        android:text="Odepsat"
+        android:text="@string/reply"
         android:onClick="reply"
         android:textSize="40sp" />
 

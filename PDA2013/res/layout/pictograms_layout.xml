@@ -10,6 +10,7 @@
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:contentDescription="@string/pict_desc"
         android:src="@drawable/ic_launcher" />
 
     <TextView
@@ -19,6 +20,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
-        android:text="TextView" />
+        android:text="@string/text_view" />
 
 </RelativeLayout>

@@ -1,7 +1,6 @@
 package cvut.fel.pda2013;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Trida pouzita k reprezentaci zpravy
@@ -10,6 +9,10 @@ import java.util.Date;
  */
 public class Message implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2103330897286224982L;
 	private User from;
 	private User to;
 	private String message;

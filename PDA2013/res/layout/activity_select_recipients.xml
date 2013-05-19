@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center_horizontal"        
-        android:text="Vyberte příjemce"
+        android:text="@string/select_recipients"
         android:textSize="40sp" />
         
     <ListView
@@ -35,7 +35,7 @@
         android:layout_marginTop="40dp"
         android:height="80dp"
         android:minWidth="400dp"
-        android:text="Potvrdit výběr"
+        android:text="@string/confirm_selection"
         android:onClick="confirm"
         android:textSize="40sp" />
 
