@@ -2,7 +2,7 @@
  <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
   <item> 
     <shape android:shape="rectangle">
-      <solid android:color="#0000ff" /> 
+      <solid android:color="#ff0000" /> <!-- zmena na cervenou -->
     </shape>
   </item>   
     <item android:bottom="3dp"  android:top="3dp"  android:right="3dp" android:left="3dp">  
